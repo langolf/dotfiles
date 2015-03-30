@@ -1,0 +1,5 @@
+onfiguration files
+.DS_Store
+._*
+.gtd
+.byobu/.ssh-agent

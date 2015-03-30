@@ -1,0 +1,12 @@
+[core]
+  excludesfile = ~/.gitignore_global
+  filemode = false
+  autocrlf = input
+  editor = vim
+[user]
+  email = sasha.langolf@gmail.com
+  name = Александр Лангольф
+[push]
+  default = current
+[credential]
+  helper = osxkeychain

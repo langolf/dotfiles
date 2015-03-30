@@ -1,0 +1,10 @@
+#Git
+alias gs="git status"
+alias gc="git commit"
+alias go="git checkout"
+alias gb="git branch"
+alias ga="git add"
+
+#Vim
+alias v="vim"
+alias r="ranger"
