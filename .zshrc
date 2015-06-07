@@ -16,19 +16,17 @@ export PATH="/usr/bin:/bin:/usr/sbin:/sbin"
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
 # Add sourses
-export DOTFILES=$HOME/.dotfiles
+export DOTFILES=$HOME/dotfiles
 source $DOTFILES/.exports
 source $ZSH/oh-my-zsh.sh
 source $DOTFILES/.aliases
 
 MARKUP="193.232.168.38"
 export EDITOR="/usr/local/bin/nvim"
-NVIM_TUI_ENABLE_TRUE_COLOR=1
+export TERM="xterm-256color-italic"
 
 
 # For rbenv
 eval "$(rbenv init -)"
 
-
-source ~/.xsh
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+. `brew --prefix`/etc/profile.d/z.sh
