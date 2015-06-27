@@ -7,7 +7,7 @@ LC_ALL=en_US.UTF-8
 ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="robbyrussell"
 COMPLETION_WAITING_DOTS="true"
-plugins=(git brew osx npm github ruby rbenv bundler gem ssh ssh-agent node rails rake)
+plugins=(git brew osx npm github ssh ssh-agent node sublime)
 
 export PATH="/usr/bin:/bin:/usr/sbin:/sbin"
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -21,9 +21,9 @@ source $DOTFILES/.exports
 source $ZSH/oh-my-zsh.sh
 source $DOTFILES/.aliases
 
-MARKUP="193.232.168.38"
 export EDITOR="/usr/local/bin/nvim"
-export TERM="xterm-256color-italic"
+export TERM=xterm-256color
+export COLORTERM=xterm-256color
 
 
 # For rbenv

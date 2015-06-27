@@ -6,5 +6,6 @@ alias gb="git branch"
 alias ga="git add"
 
 #Vim
-alias v="NVIM_TUI_ENABLE_TRUE_COLOR=1 nvim"
+alias vim="/usr/local/bin/vim"
+alias v="nvim"
 alias r="ranger"
