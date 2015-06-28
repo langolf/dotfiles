@@ -9,22 +9,18 @@ ZSH_THEME="robbyrussell"
 COMPLETION_WAITING_DOTS="true"
 plugins=(git brew osx npm github ssh ssh-agent node sublime)
 
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin"
-# export MANPATH="/usr/local/man:$MANPATH"
-
 # ssh
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
 # Add sourses
+export PATH=/usr/bin:/bin:/usr/sbin:/sbin
 export DOTFILES=$HOME/dotfiles
 source $DOTFILES/.exports
-source $ZSH/oh-my-zsh.sh
 source $DOTFILES/.aliases
+source $ZSH/oh-my-zsh.sh
 
 export EDITOR="/usr/local/bin/nvim"
 export TERM=xterm-256color
-export COLORTERM=xterm-256color
-
 
 # For rbenv
 eval "$(rbenv init -)"

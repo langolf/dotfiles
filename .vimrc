@@ -1,7 +1,9 @@
 " Disable vi-compatibility
 set nocompatible
 
+" ----------------------------------------------------------------------------
 " NeoBundle all
+" ----------------------------------------------------------------------------
 
 if has ('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim/
@@ -24,7 +26,8 @@ NeoBundle 'rking/ag.vim'
 
 " File browsing
 NeoBundle 'junegunn/fzf'
-NeoBundle 'kien/ctrlp.vim'
+" NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'scrooloose/nerdtree'
 
 " Working with Git
 NeoBundle 'tpope/vim-fugitive'
@@ -203,11 +206,11 @@ set autoindent
 set wrap
 
 fun! <SID>StripTrailingWhitespaces()
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    call cursor(l, c)
-  endfun
+  let l = line(".")
+  let c = col(".")
+  %s/\s\+$//e
+  call cursor(l, c)
+endfun
 
 " Automatically clean trailing whitespaces on save
 autocmd BufWritePre *.* :call <SID>StripTrailingWhitespaces()
@@ -218,10 +221,6 @@ autocmd BufWritePre *.* :call <SID>StripTrailingWhitespaces()
 let mapleader = "\<Space>"
 
 " Disable <Arrow keys>
-inoremap <Up> <NOP>
-inoremap <Down> <NOP>
-inoremap <Left> <NOP>
-inoremap <Right> <NOP>
 noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
@@ -231,8 +230,10 @@ noremap <Right> <NOP>
 :imap jj <Esc>
 
 " Fast indent command
-  nnoremap > >gv
-  nnoremap < <gv
+nnoremap > >>_
+nnoremap < <<
+vnoremap > >gv
+vnoremap < <gv
 
 " Toggle Folding {{{
 set foldmethod=marker
@@ -267,20 +268,14 @@ nmap <C-f> :Ag <c-r>=expand("<cword>")<cr><cr>
 map  gc  <Plug>Commentary
 nmap gcc <Plug>CommentaryLine
 
-" Ctrlp
-
-let g:ctrlp_show_hidden=1
-nnoremap <C-b> :CtrlPBuffer<CR>
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\(node_modules|bower)$',
-  \ }
-let g:ctrlp_user_command = 'ag %s -i --nocolor -f -U -g ""'
-
+" ----------------------------------------------------------------------------
 " NERDTree & Vimfiles
+" ----------------------------------------------------------------------------
 nnoremap <silent><leader>k :NERDTreeToggle<CR>
 
+" ----------------------------------------------------------------------------
 " Ultisnips
+" ----------------------------------------------------------------------------
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
@@ -288,17 +283,60 @@ let g:UltiSnipsEditSplit="vertical"
 
 " FZF
 " =====================
+let $FZF_DEFAULT_COMMAND = 'ag -l -g ""'
 nnoremap <silent> <Leader><Leader> :FZF -m<CR>
-"
-" " Open files in horizontal split
+
+" Open files in horizontal split
 nnoremap <silent> <C-p> :call fzf#run({
 \   'tmux_height': '40%',
-\   'sink':        'botright split' })<CR>
-" "
+\   'sink':        'e' })<CR>
+
 " " Open files in vertical horizontal split
 nnoremap <silent> <Leader>v :call fzf#run({
 \   'tmux_width': winwidth('.') / 2,
 \   'sink':       'vertical botright split' })<CR>
+
+" ----------------------------------------------------------------------------
+" Select buffer
+" ----------------------------------------------------------------------------
+function! s:buflist()
+  redir => ls
+  silent ls
+  redir END
+  return split(ls, '\n')
+endfunction
+
+function! s:bufopen(e)
+  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
+endfunction
+
+nnoremap <silent> <C-b> :call fzf#run({
+\   'source':  reverse(<sid>buflist()),
+\   'sink':    function('<sid>bufopen'),
+\   'options': '+m --prompt="Buf> "',
+\   'down':    len(<sid>buflist()) + 2
+\ })<CR>
+
+" ----------------------------------------------------------------------------
+" Ag
+" ----------------------------------------------------------------------------
+function! s:ag_handler(lines)
+  if len(a:lines) < 2 | return | endif
+
+  let [key, line] = a:lines[0:1]
+  let [file, line, col] = split(line, ':')[0:2]
+  let cmd = get({'ctrl-x': 'split', 'ctrl-v': 'vertical split', 'ctrl-t': 'tabe'}, key, 'e')
+  execute cmd escape(file, ' %#\')
+  execute line
+  execute 'normal!' col.'|zz'
+endfunction
+
+command! -nargs=1 Ag call fzf#run({
+\ 'source':  'ag --nogroup --column --color "'.escape(<q-args>, '"\').'"',
+\ 'sink*':    function('<sid>ag_handler'),
+\ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --no-multi --color hl:68,hl+:110',
+\ 'down':    '50%'
+\ })
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
@@ -313,9 +351,11 @@ if has("autocmd")
   autocmd! bufwritepost .vimrc source $MYVIMRC
 endif
 
+" ----------------------------------------------------------------------------
 " Custom functions
+" ----------------------------------------------------------------------------
 
-" Delete lastline
+" Don’t add empty newlines at the end of files
 au BufWritePre * :set binary | set noeol
 au BufWritePost * :set nobinary | set eol
 
