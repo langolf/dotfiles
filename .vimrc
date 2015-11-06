@@ -1,8 +1,5 @@
-" Disable vi-compatibility
-set nocompatible
-
 " ----------------------------------------------------------------------------
-" NeoBundle all
+" Neobundl all
 " ----------------------------------------------------------------------------
 
 if has ('vim_starting')
@@ -23,6 +20,7 @@ NeoBundle 'Shougo/vimproc', { 'build': {
 
 " Search
 NeoBundle 'rking/ag.vim'
+NeoBundle 'gabesoft/vim-ags'
 
 " File browsing
 NeoBundle 'junegunn/fzf'
@@ -30,18 +28,19 @@ NeoBundle 'junegunn/fzf'
 NeoBundle 'scrooloose/nerdtree'
 
 " Working with Git
-NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'airblade/vim-gitgutter'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'jreybert/vimagit'
 
 " Code syntax
 NeoBundle 'hail2u/vim-css3-syntax.git'
 NeoBundle 'JulesWang/css.vim'
 NeoBundle 'wavded/vim-stylus.git'
-" NeoBundle 'pangloss/vim-javascript'
+NeoBundle 'pangloss/vim-javascript'
 NeoBundleLazy 'jelera/vim-javascript-syntax', { 'autoload': {
     \ 'filetypes': ['javascript']
     \  } }
-NeoBundle 'vim-scripts/JavaScript-Indent'
+NeoBundle 'maksimr/vim-jsbeautify'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'leshill/vim-json.git'
 NeoBundle 'digitaltoad/vim-jade.git'
@@ -49,28 +48,38 @@ NeoBundle 'tpope/vim-haml'
 
 " NeoBundle 'Yggdroot/indentLine'
 NeoBundle 'tpope/vim-surround'
-NeoBundle 'Raimondi/delimitMate'
+" NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'tpope/vim-commentary'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'osyo-manga/vim-over'
-NeoBundle 'mattn/emmet-vim'
 
 " Color themes
 " NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'jdkanani/vim-material-theme'
 NeoBundle 'langolf/vim-colors-solarized'
-NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'chriskempson/base16-vim'
 
+
 NeoBundle 'SirVer/ultisnips'
 NeoBundle 'honza/vim-snippets'
-NeoBundle 'Shougo/neocomplcache.vim'
+" NeoBundle 'Shougo/neocomplcache.vim'
+NeoBundle 'Shougo/deoplete.nvim'
 NeoBundle 'ervandew/supertab'
 "NeoBundle 'porqz/KeyboardLayoutSwitcher' "For swithing keyboard layout after esc ru>en
 NeoBundle 'godlygeek/tabular.git'
 
 " Ruby
 NeoBundle 'vim-ruby/vim-ruby'
+" NeoBundle 'tpope/vim-sleuth'
+NeoBundle 'tpope/vim-rails'
+" NeoBundle 'tpope/vim-endwise'
+" NeoBundle 'mxw/vim-jsx'
+" NeoBundle 'jiangmiao/auto-pairs'
+" NeoBundle 'rstacruz/vim-closer'
+
+" Vim icons
+NeoBundle 'ryanoasis/vim-devicons'
 
 call neobundle#end()
 
@@ -85,14 +94,20 @@ NeoBundleCheck
 
 syntax on
 
-set clipboard=unnamed
+set clipboard+=unnamed
 
 " Turn on line number
 set number
 
-set ttyfast
-set timeoutlen=1000
-set ttimeoutlen=0
+set timeout
+" set timeoutlen=750
+" set ttimeoutlen=250
+
+"NeoVim handles ESC keys as alt+key set this to solve the problem
+if has('nvim')
+   set ttimeout
+   set ttimeoutlen=0
+endif
 
 " Always splits to the right and below
 set splitright
@@ -103,9 +118,14 @@ set cursorline
 
 " Colorschemes diff settings
 set t_Co=256
-colorscheme hybrid
+colorscheme solarized
 set background=dark
 let g:hybrid_use_Xresources=1
+" let g:airline_powerline_fonts=1
+" let g:webdevicons_enable = 1
+" let g:WebDevIconsUnicodeGlyphDoubleWidth = 0
+
+
 
 if has('nvim')
   let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
@@ -181,7 +201,7 @@ set t_vb=
 set laststatus=2
 
 " Explicitly set encoding to utf-8
-set encoding=utf-8 nobomb
+set encoding=utf-8
 set termencoding=utf-8
 set fileencodings=utf8,cp1251
 set fileformat=unix
@@ -220,6 +240,12 @@ autocmd BufWritePre *.* :call <SID>StripTrailingWhitespaces()
 " Map leader and localleader key to comma
 let mapleader = "\<Space>"
 
+" Save
+inoremap <C-s>     <C-O>:update<cr>
+nnoremap <C-s>     :update<cr>
+nnoremap <leader>s :update<cr>
+nnoremap <leader>w :update<cr>
+
 " Disable <Arrow keys>
 noremap <Up> <NOP>
 noremap <Down> <NOP>
@@ -250,8 +276,8 @@ noremap <Right> <C-W>l
 
 " Save ,w
 map <leader>w <esc>:w<CR>
-" Source
-map <leader>s <esc>:so%<CR>
+" " Source
+" map <leader>s <esc>:so%<CR>
 
 " Insert blank lines without going into Insert mode
 nmap t o<ESC>k
@@ -268,10 +294,14 @@ nmap <C-f> :Ag <c-r>=expand("<cword>")<cr><cr>
 map  gc  <Plug>Commentary
 nmap gcc <Plug>CommentaryLine
 
+" fugitive bindings
+nnoremap <space>gs :Gstatus<CR>
+
 " ----------------------------------------------------------------------------
 " NERDTree & Vimfiles
 " ----------------------------------------------------------------------------
 nnoremap <silent><leader>k :NERDTreeToggle<CR>
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 " ----------------------------------------------------------------------------
 " Ultisnips
@@ -281,15 +311,17 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsEditSplit="vertical"
 
+" Use deoplete.
+let g:deoplete#enable_at_startup = 1
+
 " FZF
 " =====================
 let $FZF_DEFAULT_COMMAND = 'ag -l -g ""'
-nnoremap <silent> <Leader><Leader> :FZF -m<CR>
 
 " Open files in horizontal split
 nnoremap <silent> <C-p> :call fzf#run({
-\   'tmux_height': '40%',
-\   'sink':        'e' })<CR>
+      \'tmux_height': '40%',
+         \   'sink':        'e' })<CR>
 
 " " Open files in vertical horizontal split
 nnoremap <silent> <Leader>v :call fzf#run({
@@ -344,20 +376,44 @@ autocmd BufReadPost *
   \   exe "normal! g`\"" |
   \ endif
 
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'fugitive', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component': {
+      \   'readonly': '%{&filetype=="help"?"":&readonly?"⭤":""}',
+      \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
+      \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
+      \ },
+      \ 'component_visible_condition': {
+      \   'readonly': '(&filetype!="help"&& &readonly)',
+      \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
+      \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
+      \ },
+      \ 'separator': { 'left': '', 'right': '' },
+      \ 'subseparator': { 'left': '', 'right': '' }
+      \ }
 
-" AutoReload .vimrc
-" Source the vimrc file after saving it
-if has("autocmd")
-  autocmd! bufwritepost .vimrc source $MYVIMRC
-endif
+" " AutoReload .vimrc
+" " Source the vimrc file after saving it
+" if has("autocmd")
+"   autocmd! bufwritepost .vimrc source $MYVIMRC
+" endif
+
+augroup reload_vimrc
+    autocmd!
+    autocmd bufwritepost $MYVIMRC nested source $MYVIMRC
+augroup END
 
 " ----------------------------------------------------------------------------
 " Custom functions
 " ----------------------------------------------------------------------------
 
-" Don’t add empty newlines at the end of files
-au BufWritePre * :set binary | set noeol
-au BufWritePost * :set nobinary | set eol
+" " Don’t add empty newlines at the end of files
+" au BufWritePre * :set binary | set noeol
+" au BufWritePost * :set nobinary | set eol
 
 " Close all open buffers on entering a window if the only
 " buffer that's left is the NERDTree buffer
@@ -383,6 +439,8 @@ endfunc
 " improve the 'search word under cursor' behavior
 nnoremap * :silent call KeywordsAll()<CR> *
 nnoremap # :silent call KeywordsAll()<CR> #
+
+autocmd FileType nerdtree setlocal nolist
 
 augroup mm_buf_cmds
   autocmd!
