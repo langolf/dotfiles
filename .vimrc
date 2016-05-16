@@ -1,147 +1,166 @@
-" ----------------------------------------------------------------------------
-" Neobundl all
-" ----------------------------------------------------------------------------
-
-if has ('vim_starting')
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
-endif
-
-call neobundle#begin(expand('~/.vim/bundle/'))
-
-" Let NeoBundle manage NeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-NeoBundle 'Shougo/vimproc', { 'build': {
-      \   'windows': 'make -f make_mingw32.mak',
-      \   'cygwin': 'make -f make_cygwin.mak',
-      \   'mac': 'make -f make_mac.mak',
-      \   'unix': 'make -f make_unix.mak',
-      \ } }
+call plug#begin('~/.nvim/plugged')
 
 " Search
-NeoBundle 'rking/ag.vim'
-NeoBundle 'gabesoft/vim-ags'
+Plug 'rking/ag.vim'
+Plug 'gabesoft/vim-ags'
+Plug 'gorkunov/smartgf.vim'
 
 " File browsing
-NeoBundle 'junegunn/fzf'
-" NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'scrooloose/nerdtree'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'dyng/ctrlsf.vim'
+Plug 'justinmk/vim-dirvish'
+Plug 'scrooloose/nerdtree'
+Plug 'francoiscabrol/ranger.vim'
+
+Plug 'kassio/neoterm'
+
+Plug 'rbgrouleff/bclose.vim'
 
 " Working with Git
-NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'jreybert/vimagit'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
+Plug 'jreybert/vimagit'
+Plug 'chrisbra/vim-diff-enhanced'
 
 " Code syntax
-NeoBundle 'hail2u/vim-css3-syntax.git'
-NeoBundle 'JulesWang/css.vim'
-NeoBundle 'wavded/vim-stylus.git'
-NeoBundle 'pangloss/vim-javascript'
-NeoBundleLazy 'jelera/vim-javascript-syntax', { 'autoload': {
-    \ 'filetypes': ['javascript']
-    \  } }
-NeoBundle 'maksimr/vim-jsbeautify'
-NeoBundle 'kchmck/vim-coffee-script'
-NeoBundle 'leshill/vim-json.git'
-NeoBundle 'digitaltoad/vim-jade.git'
-NeoBundle 'tpope/vim-haml'
+Plug 'http://github.com/hail2u/vim-css3-syntax.git'
+Plug 'JulesWang/css.vim'
+Plug 'othree/csscomplete.vim'
+Plug 'wavded/vim-stylus' , {'for': 'stylus'}
+Plug 'othree/html5.vim'
+Plug 'StanAngeloff/php.vim', {'for': 'php'}
+Plug 'kchmck/vim-coffee-script'
+Plug 'digitaltoad/vim-pug', {'for': 'pug'}
+Plug 'evidens/vim-twig', {'for': 'twig'}
 
-" NeoBundle 'Yggdroot/indentLine'
-NeoBundle 'tpope/vim-surround'
-" NeoBundle 'Raimondi/delimitMate'
-NeoBundle 'tpope/vim-commentary'
-NeoBundle 'terryma/vim-multiple-cursors'
-NeoBundle 'osyo-manga/vim-over'
+Plug 'neomake/neomake'
+
+" javascript
+Plug 'guileen/vim-node-dict'
+Plug 'moll/vim-node'
+Plug 'othree/yajs.vim'
+Plug 'othree/javascript-libraries-syntax.vim'
+Plug '1995eaton/vim-better-javascript-completion'
+Plug 'gavocanov/vim-js-indent'
+Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+Plug 'carlitux/deoplete-ternjs'
+Plug 'digitaltoad/vim-jade'
+Plug 'elzr/vim-json'
+Plug 'mxw/vim-jsx'
+
+" Working with code
+Plug 'mattn/emmet-vim'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'osyo-manga/vim-over'
+Plug 'jiangmiao/auto-pairs'
+Plug 'rstacruz/vim-closer'
+Plug 'tpope/vim-repeat'
+Plug 'junegunn/vim-oblique' | Plug 'junegunn/vim-pseudocl'
+" Plug 'Yggdroot/indentLine'
+" Plug 'Raimondi/delimitMate'
 
 " Color themes
-" NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'jdkanani/vim-material-theme'
-NeoBundle 'langolf/vim-colors-solarized'
-NeoBundle 'itchyny/lightline.vim'
-NeoBundle 'chriskempson/base16-vim'
+Plug 'langolf/gruvbox'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'frankier/neovim-colors-solarized-truecolor-only'
+Plug 'mhartington/oceanic-next'
+Plug 'w0ng/vim-hybrid'
 
+" Snippets
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'ervandew/supertab'
+" Plug 'ajh17/VimCompletesMe'
+Plug 'junegunn/vim-easy-align'
 
-NeoBundle 'SirVer/ultisnips'
-NeoBundle 'honza/vim-snippets'
-" NeoBundle 'Shougo/neocomplcache.vim'
-NeoBundle 'Shougo/deoplete.nvim'
-NeoBundle 'ervandew/supertab'
-"NeoBundle 'porqz/KeyboardLayoutSwitcher' "For swithing keyboard layout after esc ru>en
-NeoBundle 'godlygeek/tabular.git'
+Plug 'Shougo/deoplete.nvim'
+Plug 'Shougo/neoinclude.vim'
+Plug 'Shougo/context_filetype.vim'
 
 " Ruby
-NeoBundle 'vim-ruby/vim-ruby'
-" NeoBundle 'tpope/vim-sleuth'
-NeoBundle 'tpope/vim-rails'
-" NeoBundle 'tpope/vim-endwise'
-" NeoBundle 'mxw/vim-jsx'
-" NeoBundle 'jiangmiao/auto-pairs'
-" NeoBundle 'rstacruz/vim-closer'
+Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
+Plug 'tpope/vim-sleuth'
+Plug 'tpope/vim-rails', {'for': 'ruby'}
 
-" Vim icons
-NeoBundle 'ryanoasis/vim-devicons'
+Plug 'vim-scripts/auto_autoread.vim'
 
-call neobundle#end()
+Plug 'kana/vim-gf-user'
+" Plug 'justinmk/vim-sneak'
+
+" For text objects
+Plug 'kana/vim-textobj-user'
+Plug 'lucapette/vim-textobj-underscore'
+Plug 'wellle/targets.vim'
+
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-notes'
+
+" Add plugins to &runtimepath
+call plug#end()
 
 filetype plugin indent on
 syntax enable
 
-NeoBundleCheck
-
-"===============================================================================
-" General Settings
-"===============================================================================
-
+" General settings
 syntax on
-
-set clipboard+=unnamed
-
-" Turn on line number
+set clipboard=unnamed
+set ttyfast
+" set lazyredraw
+set nolazyredraw
 set number
 
 set timeout
-" set timeoutlen=750
-" set ttimeoutlen=250
+set ttimeout
+set timeoutlen=300
+set ttimeoutlen=0
+" set notimeout
 
-"NeoVim handles ESC keys as alt+key set this to solve the problem
-if has('nvim')
-   set ttimeout
-   set ttimeoutlen=0
-endif
 
-" Always splits to the right and below
 set splitright
 set splitbelow
-
-" Highlighting current line
 set cursorline
-
-" Colorschemes diff settings
-set t_Co=256
-colorscheme solarized
-set background=dark
-let g:hybrid_use_Xresources=1
-" let g:airline_powerline_fonts=1
-" let g:webdevicons_enable = 1
-" let g:WebDevIconsUnicodeGlyphDoubleWidth = 0
-
-
-
-if has('nvim')
-  let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
-  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-endif
-
-" Sets how many lines of history vim has to remember
 set history=1000
-
-" Set to auto read when a file is changed from the outside
 set autoread
-
-" Set to auto write file
 set autowriteall
+set mouse=a
+set scrolloff=10
+set scrolljump=3
+set hidden
+set backspace=start,indent,eol
+set ignorecase
+set smartcase
+set incsearch
+set hlsearch
+set magic
+set noshowmatch
+set showcmd
+set vb
+set t_vb=
+set laststatus=2
+set termencoding=utf-8
+set fileencodings=utf8,cp1251
+set fileformat=unix
+set ffs=unix,dos,mac
+set nobackup
+set nowritebackup
+set noswapfile
+set tabstop=2
+set shiftwidth=2
+set formatoptions=c,q,r,t
+set textwidth=80
 
-" Display unprintable chars
+set smarttab
+set expandtab
+set autoindent
+
+set copyindent
+set preserveindent
+set nosmartindent
+set wrap
+
 set list
 set listchars=tab:▸\ ,trail:·,extends:❯,precedes:❮,nbsp:×
 let &showbreak = '↳ '
@@ -149,81 +168,33 @@ set showbreak=\ \
 set breakindent
 set breakindentopt=sbr
 
-" mouse
-set mouse=a
-
-" set the cursor to a vertical line in insert mode and a solid block in command mode
-let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-
-" listchar=trail is not as flexible, use the below to highlight trailing
-" whitespace. Don't do it for unite windows or readonly files
-highlight ExtraWhitespace ctermbg=red guibg=red
-match ExtraWhitespace /\s\+$/
-
-" Minimal number of screen lines to keep above and below the cursor
-set scrolloff=10
-
-" How many lines to scroll at a time, make scrolling appears faster
-set scrolljump=3
-
-" Disable highlighting lines over 128 symbols
-" set synmaxcol=128
-
-" Min width of the number column to the left
-set numberwidth=2
-
-" Allow changing buffer without saving it first
-set hidden
-
-" Set backspace config
-set backspace=start,indent,eol
-
-" Case insensitive search
-set ignorecase
-set smartcase
-set incsearch
-
-" Make regex a little easier to type
-set magic
-
-" Don't show matching brackets
-set noshowmatch
-
-" Show incomplete commands
-set showcmd
-
-" Turn off sound
-set vb
-set t_vb=
-
-" Always show the statusline
-set laststatus=2
-
 " Explicitly set encoding to utf-8
-set encoding=utf-8
-set termencoding=utf-8
-set fileencodings=utf8,cp1251
-set fileformat=unix
+if !has('nvim')
+  set encoding=utf-8
+endif
 
-" Use Unix as the standart file type
-set ffs=unix,dos,mac
+" Use old regexp engine for faster syntax highlight
+set re=1
 
-" Turn backup off
-set nobackup
-set nowritebackup
-set noswapfile
+" Statusline
+set statusline=#%n:\%t\ %m
+set statusline+=\ \ %y
+set statusline+=\ \ %3.3(%c%)\ %3.9(%l/%L%)
+set statusline+=\ \ %{&fileencoding}
+set statusline+=\ \ %{fugitive#statusline()}
 
-" Tab settings
-set expandtab
-set shiftwidth=2
-set tabstop=2
-set softtabstop=2
-set smarttab
+" Colors
+set termguicolors
+set background=light
+let g:gruvbox_bold=1
+let g:gruvbox_italic=1
+colorscheme PaperColor
 
-" Text display settings
-set autoindent
-set wrap
+" Set filetype
+set suffixesadd+=.rb,.jade,.styl,.sass,.js
+
+" Russian keymap support
+set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯЖ;ABCDEFGHIJKLMNOPQRSTUVWXYZ:,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
 
 fun! <SID>StripTrailingWhitespaces()
   let l = line(".")
@@ -235,31 +206,52 @@ endfun
 " Automatically clean trailing whitespaces on save
 autocmd BufWritePre *.* :call <SID>StripTrailingWhitespaces()
 
-" Leader Key Mappings
+" listchar=trail is not as flexible, use the below to highlight trailing
+" whitespace. Don't do it for unite windows or readonly files
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
 
+" Leader Key Mappings
 " Map leader and localleader key to comma
 let mapleader = "\<Space>"
 
 " Save
 inoremap <C-s>     <C-O>:update<cr>
 nnoremap <C-s>     :update<cr>
-nnoremap <leader>s :update<cr>
-nnoremap <leader>w :update<cr>
 
-" Disable <Arrow keys>
-noremap <Up> <NOP>
-noremap <Down> <NOP>
-noremap <Left> <NOP>
-noremap <Right> <NOP>
+" Save ,w
+map <leader>w <esc>:w<CR>
+
+" This maps control+n to exit terminal mode.
+if has('nvim')
+  :tnoremap <C-n> <C-\><C-n>
+endif
+
+" No need for ex mode
+nnoremap Q <nop>
+
+" No recording macros
+map q <Nop>
+
+" Better command
+nnoremap ; :
 
 :imap jk <Esc>
 :imap jj <Esc>
 
 " Fast indent command
-nnoremap > >>_
-nnoremap < <<
-vnoremap > >gv
-vnoremap < <gv
+xnoremap <  <gv
+xnoremap >  >gv
+
+" Move visual block
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
+" Keep the cursor in place while joining lines
+nnoremap J mzJ`z
+
+" [S]plit line (sister to [J]oin lines) S is covered by cc.
+nnoremap S mzi<CR><ESC>`z
 
 " Toggle Folding {{{
 set foldmethod=marker
@@ -274,181 +266,217 @@ noremap <Up> <C-W>k
 noremap <Left> <C-W>h
 noremap <Right> <C-W>l
 
-" Save ,w
-map <leader>w <esc>:w<CR>
-" " Source
-" map <leader>s <esc>:so%<CR>
-
 " Insert blank lines without going into Insert mode
 nmap t o<ESC>k
 nmap T O<ESC>j
 
+" Switch tab
+nmap <tab> gt
+nmap <shift><tab> gT
+
 " Open the .vimrc in a new tab
 nmap <leader>e :vsp $MYVIMRC<CR>
 
-" Ag
-nnoremap <leader>a :Ag
-nmap <C-f> :Ag <c-r>=expand("<cword>")<cr><cr>
+" Don't yank to default register when changing something
+nnoremap c "xc
+xnoremap c "xc
+
+" Visual linewise up and down by default
+noremap j gj
+noremap k gk
+
+" Make Y/yy consistent with D/dd and C/cc
+nnoremap yy Y
+nnoremap Y y$
+
+" No more accidentally showing up command window (Use C-f to show it)
+map q: :q
 
 " vim-commentary
 map  gc  <Plug>Commentary
+map  <C-/>  <Plug>Commentary
 nmap gcc <Plug>CommentaryLine
 
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+
+" started In Diff-Mode set diffexpr (plugin not loaded yet)
+if &diff
+  let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
+endif
+
+" React JSX
+let g:jsx_ext_required=0 " Allow JSX in normal JS files
+
+" Supertab
+let g:SuperTabDefaultCompletionType = "<c-n>"
+
 " fugitive bindings
-nnoremap <space>gs :Gstatus<CR>
+nnoremap <leader>g :Gstatus<CR>
+nnoremap <leader>d :Gvdiff<CR>
 
-" ----------------------------------------------------------------------------
-" NERDTree & Vimfiles
-" ----------------------------------------------------------------------------
-nnoremap <silent><leader>k :NERDTreeToggle<CR>
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+" Multi Cursors
+let g:multi_cursor_start_key='<C-n>'
+let g:multi_cursor_start_word_key='g<C-n>'
 
-" ----------------------------------------------------------------------------
-" Ultisnips
-" ----------------------------------------------------------------------------
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-let g:UltiSnipsEditSplit="vertical"
+let g:smartgf_extensions = ['.jade', '.styl', '.sass', '.coffee', '.js']
+
+" Ctrlsf don't ask confirmation
+let g:ctrlsf_confirm_save=0
+
+" " Emmet
+" let g:user_emmet_install_global=0
+" autocmd FileType html,css,stylus,sass,scss EmmetInstall
+" let g:user_emmet_expandabbr_key='<Tab>'
+" imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
 " Use deoplete.
-let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_at_startup=1
+let g:deoplete#enable_refresh_always=1
+" let g:deoplete#enable_camel_case = 1
+" let g:deoplete#enable_smart_case = 1
+" let g:deoplete#enable_ignore_case = 1
+" let g:deoplete#file#enable_buffer_path=1
+let g:deoplete#auto_completion_start_length=2
+let g:deoplete#disable_auto_complete = 0
+" autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
+
+" Autocomplete plugins slow down multiple cursors plugin
+" Called once right before you start selecting multiple cursors
+function! Multiple_cursors_before()
+  let b:deoplete_disable_auto_complete = 1
+endfunction
+
+" Called once only when the multiple selection is canceled (default <Esc>)
+function! Multiple_cursors_after()
+   let b:deoplete_disable_auto_complete = 0
+endfunction
+
+augroup omnifunc
+  autocmd!
+  autocmd FileType css,stylus,sass setlocal omnifunc=csscomplete#CompleteCSS
+  autocmd FileType html,htmldjango,jinja,markdown setl omnifunc=emmet#completeTag
+augroup end
+
+" Tern js
+let g:tern_request_timeout = 1
+let g:tern_show_argument_hints='on_hold'
+let g:tern_show_signature_in_pum =0  " This do disable full signature type on autocomplete
+
+" Open Ranger
+let g:ranger_map_keys=0
+map <leader>x :Ranger<CR>
+
+" NERDTree
+map <C-\> :NERDTreeToggle<CR>
+let NERDTreeShowHidden=1
+
+" Close NERDTree if there is no opened files
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" Neomake
+let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_json_enabled_makers = ['jsonlint']
+
+" Neomake
+autocmd! BufWritePost * Neomake
+
+" Ultisnips
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsEditSplit="vertical"
+
+map <leader>m :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
 " FZF
-" =====================
-let $FZF_DEFAULT_COMMAND = 'ag -l -g ""'
+set rtp+=/usr/local/opt/fzf
+nnoremap <C-p> :FZF -m<CR>
+nnoremap <silent> <C-b> :Buffers<CR>
+nnoremap <silent> <Leader>C :Colors<CR>
 
-" Open files in horizontal split
-nnoremap <silent> <C-p> :call fzf#run({
-      \'tmux_height': '40%',
-         \   'sink':        'e' })<CR>
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
 
-" " Open files in vertical horizontal split
-nnoremap <silent> <Leader>v :call fzf#run({
-\   'tmux_width': winwidth('.') / 2,
-\   'sink':       'vertical botright split' })<CR>
+let g:fzf_layout = { 'down': '~40%' }
 
-" ----------------------------------------------------------------------------
-" Select buffer
-" ----------------------------------------------------------------------------
-function! s:buflist()
-  redir => ls
-  silent ls
-  redir END
-  return split(ls, '\n')
-endfunction
-
-function! s:bufopen(e)
-  execute 'buffer' matchstr(a:e, '^[ 0-9]*')
-endfunction
-
-nnoremap <silent> <C-b> :call fzf#run({
-\   'source':  reverse(<sid>buflist()),
-\   'sink':    function('<sid>bufopen'),
-\   'options': '+m --prompt="Buf> "',
-\   'down':    len(<sid>buflist()) + 2
-\ })<CR>
-
-" ----------------------------------------------------------------------------
 " Ag
-" ----------------------------------------------------------------------------
+nnoremap <leader>a :Ag <CR>
+nmap <C-f> :Ag <c-r>=expand("<cword>")<cr><cr>
+
+function! s:ag_to_qf(line)
+  let parts = split(a:line, ':')
+  return {'filename': parts[0], 'lnum': parts[1], 'col': parts[2],
+        \ 'text': join(parts[3:], ':')}
+endfunction
+
 function! s:ag_handler(lines)
   if len(a:lines) < 2 | return | endif
 
-  let [key, line] = a:lines[0:1]
-  let [file, line, col] = split(line, ':')[0:2]
-  let cmd = get({'ctrl-x': 'split', 'ctrl-v': 'vertical split', 'ctrl-t': 'tabe'}, key, 'e')
-  execute cmd escape(file, ' %#\')
-  execute line
-  execute 'normal!' col.'|zz'
+  let cmd = get({'ctrl-x': 'split',
+               \ 'ctrl-v': 'vertical split',
+               \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
+  let list = map(a:lines[1:], 's:ag_to_qf(v:val)')
+
+  let first = list[0]
+  execute cmd escape(first.filename, ' %#\')
+  execute first.lnum
+  execute 'normal!' first.col.'|zz'
+
+  if len(list) > 1
+    call setqflist(list)
+    copen
+    wincmd p
+  endif
 endfunction
 
-command! -nargs=1 Ag call fzf#run({
-\ 'source':  'ag --nogroup --column --color "'.escape(<q-args>, '"\').'"',
+command! -nargs=* Ag call fzf#run({
+\ 'source':  printf('ag --nogroup --column --color "%s"',
+\                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
 \ 'sink*':    function('<sid>ag_handler'),
-\ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --no-multi --color hl:68,hl+:110',
+\ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
+\            '--multi --bind ctrl-a:select-all,ctrl-d:deselect-all '.
+\            '--color hl:68,hl+:110',
 \ 'down':    '50%'
 \ })
 
-" Return to last edit position when opening files (You want this!)
+" Return to last edit position when opening files
 autocmd BufReadPost *
   \ if line("'\"") > 0 && line("'\"") <= line("$") |
   \   exe "normal! g`\"" |
   \ endif
 
-let g:lightline = {
-      \ 'colorscheme': 'wombat',
-      \ 'active': {
-      \   'left': [ [ 'mode', 'paste' ],
-      \             [ 'fugitive', 'readonly', 'filename', 'modified' ] ]
-      \ },
-      \ 'component': {
-      \   'readonly': '%{&filetype=="help"?"":&readonly?"⭤":""}',
-      \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
-      \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
-      \ },
-      \ 'component_visible_condition': {
-      \   'readonly': '(&filetype!="help"&& &readonly)',
-      \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
-      \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
-      \ },
-      \ 'separator': { 'left': '', 'right': '' },
-      \ 'subseparator': { 'left': '', 'right': '' }
-      \ }
-
-" " AutoReload .vimrc
-" " Source the vimrc file after saving it
-" if has("autocmd")
-"   autocmd! bufwritepost .vimrc source $MYVIMRC
-" endif
-
+" AutoReload .vimrc
 augroup reload_vimrc
     autocmd!
-    autocmd bufwritepost $MYVIMRC nested source $MYVIMRC
+    au BufWritePost vimrc,.vimrc nested if expand('%') !~ 'fugitive' | source % | endif
 augroup END
 
-" ----------------------------------------------------------------------------
-" Custom functions
-" ----------------------------------------------------------------------------
-
-" " Don’t add empty newlines at the end of files
-" au BufWritePre * :set binary | set noeol
-" au BufWritePost * :set nobinary | set eol
-
-" Close all open buffers on entering a window if the only
-" buffer that's left is the NERDTree buffer
-function! s:CloseIfOnlyNerdTreeLeft()
-  if exists("t:NERDTreeBufName")
-    if bufwinnr(t:NERDTreeBufName) != -1
-      if winnr("$") == 1
-        q
-      endif
-    endif
-  endif
-endfunction
-
-" --- toggle autocomplete behavior and word delimiters ---
+" Word delimiters -/_/__
 function! KeywordsAll()
-   setl iskeyword=@,48-57,192-255,\@,\$,%,-,_
+    setl iskeyword=@,48-57,192-255,\@,\$,%,-,_
 endfunc
 
 function! KeywordsBasic()
-  setl iskeyword=@,48-57,192-255
+    setl iskeyword=@,48-57,192-255
 endfunc
 
-" improve the 'search word under cursor' behavior
-nnoremap * :silent call KeywordsAll()<CR> *
-nnoremap # :silent call KeywordsAll()<CR> #
-
-autocmd FileType nerdtree setlocal nolist
-
 augroup mm_buf_cmds
-  autocmd!
-  au WinLeave,InsertEnter * set nocul
-  au WinEnter,InsertLeave * set cul
-  autocmd InsertEnter,BufLeave * :silent call KeywordsAll()
-  autocmd InsertLeave,BufEnter * :silent call KeywordsBasic()
-  " yes, we need to duplicate it on VimEnter for some weird reason
-  autocmd VimEnter * nnoremap * :silent call KeywordsAll()<CR> *
-  autocmd VimEnter * nnoremap # :silent call KeywordsAll()<CR> #
+   " clear commands before resetting
+    autocmd!
+    " make sure `complete` works as expected for CSS class names without
+    " messing with motions (eg. '.foo-bar__baz') and we make sure all
+    " delimiters (_,-,$,%,.) are treated as word separators outside insert mode
+    autocmd InsertEnter,BufLeave * :silent call KeywordsAll()
+    autocmd InsertLeave,BufEnter * :silent call KeywordsBasic()
+
+    " yes, we need to duplicate it on VimEnter for some weird reason
+    autocmd VimEnter * nnoremap * :silent call KeywordsAll()<CR> *
+    autocmd VimEnter * nnoremap # :silent call KeywordsAll()<CR> #
 augroup END
