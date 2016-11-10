@@ -1,12 +1,14 @@
-[core]
-  excludesfile = ~/.gitignore_global
-  filemode = false
-  autocrlf = input
-  editor = vim
 [user]
   email = sasha.langolf@gmail.com
-  name = Александр Лангольф
+  name = Aleksandr Langolf
+[core]
+  excludesfile = ~/.gitignore
+  filemode = false
+  autocrlf = input
+  editor = nvim
 [push]
-  default = current
+  default = simple
 [credential]
   helper = osxkeychain
+[merge]
+  tool = vimdiff
