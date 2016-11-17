@@ -1,7 +1,6 @@
 export ZSH=~/.oh-my-zsh
 
-# COMPLETION_WAITING_DOTS="true"
-plugins=(ssh ssh-agent git brew osx npm github node rails rsync tmux gulp k docker)
+plugins=(ssh ssh-agent git brew osx npm github node rsync tmux gulp k)
 
 export PATH=/usr/bin:/bin:/usr/sbin:/sbin
 export PATH=/usr/local/bin:$PATH
@@ -29,6 +28,8 @@ alias v="nvim"
 alias tmux="env TERM=xterm-256color tmux"
 
 alias r="ranger"
+
+export LC_ALL="en_US.UTF-8"
 
 # For rbenv
  . `brew --prefix`/etc/profile.d/z.sh // for z

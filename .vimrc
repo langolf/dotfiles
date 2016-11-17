@@ -1,104 +1,89 @@
-call plug#begin('~/.nvim/plugged')
+" Plugins {{{
+  call plug#begin('~/.nvim/plugged')
 
-" Search
-Plug 'rking/ag.vim'
-Plug 'gabesoft/vim-ags'
-Plug 'haya14busa/incsearch.vim'
-Plug 'haya14busa/incsearch-fuzzy.vim'
-Plug 'unblevable/quick-scope'
+  " Search
+  Plug 'rking/ag.vim'
+  Plug 'haya14busa/incsearch.vim'
+  Plug 'haya14busa/incsearch-fuzzy.vim'
 
-" File browsing
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'cloudhead/neovim-fuzzy'
-Plug 'junegunn/fzf.vim'
-Plug 'dyng/ctrlsf.vim'
-Plug 'scrooloose/nerdtree'
-Plug 'francoiscabrol/ranger.vim'
+  " File browsing
+  Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+  Plug 'junegunn/fzf.vim'
+  Plug 'dyng/ctrlsf.vim'
+  Plug 'scrooloose/nerdtree'
+  Plug 'francoiscabrol/ranger.vim'
 
-Plug 'rbgrouleff/bclose.vim'
-Plug 'editorconfig/editorconfig-vim'
+  Plug 'editorconfig/editorconfig-vim'
 
-" Working with Git
-Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
-Plug 'jreybert/vimagit'
-Plug 'chrisbra/vim-diff-enhanced'
+  " Working with Git
+  Plug 'airblade/vim-gitgutter'
+  Plug 'tpope/vim-fugitive'
+  Plug 'jreybert/vimagit'
+  Plug 'chrisbra/vim-diff-enhanced'
 
-" Code syntax
-Plug 'http://github.com/hail2u/vim-css3-syntax.git'
-Plug 'JulesWang/css.vim'
-Plug 'stephenway/postcss.vim'
-Plug 'othree/csscomplete.vim'
-Plug 'wavded/vim-stylus' , {'for': 'stylus'}
-Plug 'othree/html5.vim'
-Plug 'StanAngeloff/php.vim'
-Plug 'kchmck/vim-coffee-script'
-Plug 'digitaltoad/vim-pug', {'for': 'pug'}
+  " Code syntax
+  Plug 'http://github.com/hail2u/vim-css3-syntax.git'
+  Plug 'JulesWang/css.vim'
+  Plug 'stephenway/postcss.vim'
+  Plug 'othree/csscomplete.vim'
+  Plug 'wavded/vim-stylus' , {'for': 'stylus'}
+  Plug 'othree/html5.vim'
+  Plug 'StanAngeloff/php.vim', {'for': 'php'}
+  Plug 'kchmck/vim-coffee-script', {'for': 'coffee'}
+  Plug 'digitaltoad/vim-pug', {'for': 'pug'}
+  Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
+  Plug 'tpope/vim-rails', {'for': 'ruby'}
 
-Plug 'neomake/neomake'
+  Plug 'neomake/neomake'
 
-" javascript
-Plug 'guileen/vim-node-dict'
-Plug 'moll/vim-node'
-" Plug 'othree/yajs.vim', { 'for': 'javascript' }
-Plug 'othree/javascript-libraries-syntax.vim'
-Plug '1995eaton/vim-better-javascript-completion'
-Plug 'gavocanov/vim-js-indent'
-Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
-Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install --cache-min Infinity --loglevel http -g tern' }
-Plug 'elzr/vim-json'
-Plug 'mxw/vim-jsx'
-Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
-Plug 'neovim/node-host', { 'do': 'npm install --cache-min Infinity --loglevel http' }
+  " javascript
+  Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] }
+  Plug 'guileen/vim-node-dict'
+  Plug 'moll/vim-node'
+  Plug 'othree/javascript-libraries-syntax.vim'
+  Plug 'gavocanov/vim-js-indent'
+  Plug 'elzr/vim-json'
+  Plug 'mxw/vim-jsx'
+  Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 
-" Working with code
-Plug 'mattn/emmet-vim'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-commentary'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'osyo-manga/vim-over'
-Plug 'jiangmiao/auto-pairs'
-Plug 'rstacruz/vim-closer'
-Plug 'tpope/vim-repeat'
-Plug 'junegunn/vim-oblique' | Plug 'junegunn/vim-pseudocl'
-Plug 'easymotion/vim-easymotion'
-" Plug 'Yggdroot/indentLine'
-" Plug 'Raimondi/delimitMate'
-Plug 'Valloric/MatchTagAlways'
-Plug 'tpope/vim-sleuth'
+  " Working with code
+  Plug 'mattn/emmet-vim'
+  Plug 'tpope/vim-surround'
+  Plug 'terryma/vim-multiple-cursors'
+  Plug 'osyo-manga/vim-over'
+  Plug 'jiangmiao/auto-pairs'
+  Plug 'rstacruz/vim-closer'
+  Plug 'tpope/vim-repeat'
+  Plug 'Valloric/MatchTagAlways'
+  Plug 'tpope/vim-sleuth'
+  Plug 'junegunn/vim-easy-align'
+  Plug 'tpope/vim-commentary'
 
-" Color themes
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'tyrannicaltoucan/vim-deep-space'
-Plug 'joshdick/onedark.vim'
-Plug 'rakr/vim-one'
+  " Color themes
+  Plug 'NLKNguyen/papercolor-theme'
+  Plug 'tyrannicaltoucan/vim-deep-space'
+  Plug 'rakr/vim-one'
 
-" Snippets
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'ervandew/supertab'
-Plug 'junegunn/vim-easy-align'
+  " Snippets
+  Plug 'SirVer/ultisnips'
+  Plug 'honza/vim-snippets'
+  Plug 'ervandew/supertab'
 
-Plug 'Shougo/deoplete.nvim'
-Plug 'Shougo/neoinclude.vim'
-Plug 'Shougo/context_filetype.vim'
-Plug 'vimlab/split-term.vim'
+  " Autocomplete
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'Shougo/context_filetype.vim'
+  Plug 'vimlab/split-term.vim'
+  Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+  Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 
-" Ruby
-Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
-Plug 'tpope/vim-rails', {'for': 'ruby'}
-
-Plug 'vim-scripts/auto_autoread.vim'
-
-" Plug 'justinmk/vim-sneak'
-
-" For text objects
-Plug 'kana/vim-textobj-user'
-Plug 'lucapette/vim-textobj-underscore'
-Plug 'wellle/targets.vim'
+  Plug 'vim-scripts/auto_autoread.vim'
 
 " Add plugins to &runtimepath
 call plug#end()
+
+" }}}
+
+" General settings {{{
 
 filetype plugin indent on
 syntax enable
@@ -106,16 +91,16 @@ syntax enable
 " General settings
 syntax on
 set clipboard+=unnamedplus
+set completeopt=longest,menuone,preview
+set complete=.,k,t,i,d " t allows completing on tags, but that takes waaay too long
 set ttyfast
-set nolazyredraw
+set lazyredraw
 set number
 
 set timeout
 set ttimeout
 set timeoutlen=300
 set ttimeoutlen=0
-" set notimeout
-
 
 set splitright
 set splitbelow
@@ -150,16 +135,13 @@ set tabstop=2
 set shiftwidth=2
 set formatoptions=c,q,r,t
 set textwidth=80
-
 set smarttab
 set expandtab
 set autoindent
-
 set copyindent
 set preserveindent
-set nosmartindent
+set smartindent
 set wrap
-
 set list
 set listchars=tab:▸\ ,trail:·,extends:❯,precedes:❮,nbsp:×
 let &showbreak = '↳ '
@@ -167,13 +149,14 @@ set showbreak=↪
 set breakindent
 set breakindentopt=sbr
 
+if exists('&inccommand')
+  set inccommand=split
+endif
+
 " Explicitly set encoding to utf-8
 if !has('nvim')
   set encoding=utf-8
 endif
-
-" Use old regexp engine for faster syntax highlight
-set re=1
 
 " Statusline
 set statusline=\%t\ %m
@@ -181,40 +164,23 @@ set statusline=\%t\ %m
 " set statusline+=\ \ %3.3(%c%)\ %3.9(%l/%L%)
 " set statusline+=\ \ %{&fileencoding}
 
-set wildmode=full
+set wildmode=list:longest,full
+set wildignore+=.hg,.git,.svn
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg
 
 " Colors
 set termguicolors
-set background=dark
-let g:deepspace_italics = 1
-let g:indentLine_char = '│'
-colorscheme one
-
-" Set filetype
-set suffixesadd+=.rb,.jade,.styl,.sass,.js
+set background=light
+let g:one_allow_italics = 1
+colorscheme PaperColor
 
 " Russian keymap support
 set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯЖ;ABCDEFGHIJKLMNOPQRSTUVWXYZ:,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
 
-fun! <SID>StripTrailingWhitespaces()
-  let l = line(".")
-  let c = col(".")
-  %s/\s\+$//e
-  call cursor(l, c)
-endfun
+" }}}
 
-" Automatically clean trailing whitespaces on save
-autocmd BufWritePre *.* :call <SID>StripTrailingWhitespaces()
-highlight ExtraWhitespace ctermbg=red guibg=red
-match ExtraWhitespace /\s\+$/
-
-" Leader Key Mappings
-" Map leader and localleader key to comma
+"  Mappings {{{
 let mapleader = "\<Space>"
-
-" Save
-inoremap <C-s>     <C-O>:update<cr>
-nnoremap <C-s>     :update<cr>
 
 " This maps control+n to exit terminal mode.
 if has('nvim')
@@ -234,8 +200,8 @@ nnoremap ; :
 :imap jj <Esc>
 
 " Fast indent command
-xnoremap <  <gv
-xnoremap >  >gv
+xnoremap < <gv
+xnoremap > >gv
 
 " Move visual block
 vnoremap J :m '>+1<CR>gv=gv
@@ -284,40 +250,15 @@ map q: :q
 
 " vim-commentary
 map  gc  <Plug>Commentary
-map  <C-/>  <Plug>Commentary
 nmap gcc <Plug>CommentaryLine
 
 " Incsearch fuzzy
 map /  <Plug>(incsearch-forward)
-" map / <Plug>(incsearch-fuzzy-/)
-
-" Trigger a highlight in the appropriate direction when pressing these keys:
-let g:qs_highlight_on_keys = ['f', 'F']
-let g:qs_first_occurrence_highlight_color = '#afff5f'
-let g:qs_second_occurrence_highlight_color = '#5fffff'
-let g:qs_first_occurrence_highlight_color = 155
-let g:qs_second_occurrence_highlight_color = 81
-nmap <leader>q <plug>(QuickScopeToggle)
-
-" Easymotion
-nmap <Leader>m <Plug>(easymotion-s)
-omap <Leader>m <Plug>(easymotion-bd-t)
-vmap <Leader>m <Plug>(easymotion-bd-t)
+map ? <Plug>(incsearch-fuzzy-/)
 
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
-
-" started In Diff-Mode set diffexpr (plugin not loaded yet)
-if &diff
-  let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
-endif
-
-" React JSX
-let g:jsx_ext_required=0 " Allow JSX in normal JS files
-
-" Supertab
-let g:SuperTabDefaultCompletionType = "<c-n>"
 
 " Open vertical term
 nnoremap <leader>\ :VTerm<CR>
@@ -326,6 +267,22 @@ nnoremap § :Term<CR>
 if has('nvim')
   tmap § :<Esc>:q<CR>
 endif
+
+" }}}
+
+" Plugins {{{
+
+" started In Diff-Mode set diffexpr (plugin not loaded yet)
+if &diff
+  let &diffexpr='EnhancedDiff#Diff("git diff", "--diff-algorithm=patience")'
+endif
+
+" Supertab
+let g:SuperTabLongestHighlight = 1
+let g:SuperTabClosePreviewOnPopupClose = 1
+let g:SuperTabLongestEnhanced = 1
+let g:SuperTabCrMapping = 1
+let g:SuperTabDefaultCompletionType = "<c-n>"
 
 " fugitive bindings
 nnoremap <leader>g :Gstatus<CR>
@@ -346,43 +303,23 @@ let g:multi_cursor_start_word_key='g<C-n>'
 " Ctrlsf don't ask confirmation
 let g:ctrlsf_confirm_save=0
 
-" " Emmet
+" Emmet
 let g:user_emmet_install_global=0
-autocmd FileType html,jade,jsx,css,javascript.jsx,stylus,sass,scss EmmetInstall
+let g:user_emmet_expandabbr_key='<C-e>'
+imap <expr> <C-e> emmet#expandAbbrIntelligent("\<C-e>")
+autocmd FileType html,css,tpl EmmetInstall
 
 " Use deoplete.
-" let g:python_host_prog='/usr/bin/python'
 let g:deoplete#enable_at_startup=1
 let g:deoplete#enable_refresh_always=1
 let g:deoplete#enable_camel_case=1
 let g:deoplete#enable_smart_case=1
 let g:deoplete#enable_ignore_case=1
 let g:deoplete#file#enable_buffer_path=1
-let g:deoplete#auto_completion_start_length=2
+let g:deoplete#auto_completion_start_length=1
 let g:deoplete#disable_auto_complete=0
-" autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
-
-" Autocomplete plugins slow down multiple cursors plugin
-" Called once right before you start selecting multiple cursors
-function! Multiple_cursors_before()
-  let b:deoplete_disable_auto_complete = 1
-endfunction
-
-" Called once only when the multiple selection is canceled (default <Esc>)
-function! Multiple_cursors_after()
-   let b:deoplete_disable_auto_complete = 0
-endfunction
-
-augroup omnifunc
-  autocmd!
-
-  autocmd FileType css,stylus,sass setlocal omnifunc=csscomplete#CompleteCSS
-  " autocmd FileType html,jsx,htmldjango,jinja,markdown setl omnifunc=emmet#completeTag
-augroup end
-
-au BufRead,BufNewFile *.jade set filetype=pug
-" au BufRead,BufNewFile *.sss set filetype=sass
 
 " Tern js
 let g:tern_request_timeout = 1
@@ -390,39 +327,29 @@ let g:tern_show_argument_hints='on_hold'
 let g:tern_show_signature_in_pum =0  " This do disable full signature type on autocomplete
 let g:tern#command = ["tern"]
 let g:tern#arguments = ["--persistent"]
-autocmd FileType javascript setlocal omnifunc=tern#Complete
+
+if exists('g:plugs["tern_for_vim"]')
+  let g:tern_show_argument_hints = 'on_hold'
+  let g:tern_show_signature_in_pum = 1
+  autocmd FileType javascript setlocal omnifunc=tern#Complete
+endif
 
 " Open Ranger
 let g:ranger_map_keys=0
-" map <leader>x :Ranger<CR>
 map - :Ranger<CR>
 
 " NERDTree
 map <C-\> :NERDTreeToggle<CR>
 let NERDTreeShowHidden=1
-
-" Close NERDTree if there is no opened files
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+let g:NERDTreeDirArrowExpandable = '+'
+let g:NERDTreeDirArrowCollapsible = '-'
 
 " Neomake
 let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_json_enabled_makers = ['jsonlint']
 
-" Neomake
-autocmd! BufWritePost * Neomake
-
 " Ultisnips
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsEditSplit="vertical"
-
-map <leader>m :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
-
-" FZY
-nnoremap <C-l> :FuzzyOpen<CR>
 
 " FZF
 set rtp+=/usr/local/opt/fzf
@@ -468,7 +395,7 @@ function! s:ag_handler(lines)
 endfunction
 
 command! -nargs=* Ag call fzf#run({
-\ 'source':  printf('ag --nogroup --column --color "%s"',
+\ 'source':  printf('ag -U --nogroup --column --color "%s"',
 \                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
 \ 'sink*':    function('<sid>ag_handler'),
 \ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
@@ -477,17 +404,26 @@ command! -nargs=* Ag call fzf#run({
 \ 'down':    '50%'
 \ })
 
-" Return to last edit position when opening files
-autocmd BufReadPost *
-  \ if line("'\"") > 0 && line("'\"") <= line("$") |
-  \   exe "normal! g`\"" |
-  \ endif
+" Automatically clean trailing whitespaces on save
+fun! <SID>StripTrailingWhitespaces()
+  let l = line(".")
+  let c = col(".")
+  %s/\s\+$//e
+  call cursor(l, c)
+endfun
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
 
-" AutoReload .vimrc
-augroup reload_vimrc
-    autocmd!
-    au BufWritePost vimrc,.vimrc nested if expand('%') !~ 'fugitive' | source % | endif
-augroup END
+" Autocomplete plugins slow down multiple cursors plugin
+" Called once right before you start selecting multiple cursors
+function! Multiple_cursors_before()
+  let b:deoplete_disable_auto_complete = 1
+endfunction
+
+" Called once only when the  selection is canceled (default <Esc>)
+function! Multiple_cursors_after()
+   let b:deoplete_disable_auto_complete = 0
+endfunction
 
 " Word delimiters -/_/__
 function! KeywordsAll()
@@ -498,16 +434,51 @@ function! KeywordsBasic()
     setl iskeyword=@,48-57,192-255
 endfunc
 
-augroup mm_buf_cmds
-   " clear commands before resetting
-    autocmd!
-    " make sure `complete` works as expected for CSS class names without
-    " messing with motions (eg. '.foo-bar__baz') and we make sure all
-    " delimiters (_,-,$,%,.) are treated as word separators outside insert mode
-    autocmd InsertEnter,BufLeave * :silent call KeywordsAll()
-    autocmd InsertLeave,BufEnter * :silent call KeywordsBasic()
+" }}}
 
-    " yes, we need to duplicate it on VimEnter for some weird reason
-    autocmd VimEnter * nnoremap * :silent call KeywordsAll()<CR> *
-    autocmd VimEnter * nnoremap # :silent call KeywordsAll()<CR> #
+" Autogroups {{{
+
+" Return to last edit position when opening files
+autocmd BufReadPost *
+  \ if line("'\"") > 0 && line("'\"") <= line("$") |
+  \   exe "normal! g`\"" |
+  \ endif
+
+" Close NERDTree if there is no opened files
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" Neomake
+autocmd! BufWritePost * Neomake
+
+" AutoReload .vimrc
+augroup reload_vimrc
+    autocmd!
+    au BufWritePost vimrc,.vimrc nested if expand('%') !~ 'fugitive' | source % | endif
 augroup END
+
+autocmd BufWritePre *.* :call <SID>StripTrailingWhitespaces()
+
+augroup omnifunc
+  autocmd!
+
+  autocmd FileType css,stylus,sass setlocal omnifunc=csscomplete#CompleteCSS
+augroup end
+
+au BufRead,BufNewFile *.jade set filetype=pug
+au BufRead,BufNewFile *.tpl set filetype=html
+
+augroup mm_buf_cmds
+ " clear commands before resetting
+  autocmd!
+  " make sure `complete` works as expected for CSS class names without
+  " messing with motions (eg. '.foo-bar__baz') and we make sure all
+  " delimiters (_,-,$,%,.) are treated as word separators outside insert mode
+  autocmd InsertEnter,BufLeave * :silent call KeywordsAll()
+  autocmd InsertLeave,BufEnter * :silent call KeywordsBasic()
+
+  " yes, we need to duplicate it on VimEnter for some weird reason
+  autocmd VimEnter * nnoremap * :silent call KeywordsAll()<CR> *
+  autocmd VimEnter * nnoremap # :silent call KeywordsAll()<CR> #
+augroup END
+
+" }}}
