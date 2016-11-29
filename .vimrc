@@ -12,6 +12,8 @@
   Plug 'dyng/ctrlsf.vim'
   Plug 'scrooloose/nerdtree'
   Plug 'francoiscabrol/ranger.vim'
+  Plug 'vimlab/split-term.vim'
+  Plug 'Shougo/denite.nvim'
 
   Plug 'editorconfig/editorconfig-vim'
 
@@ -63,6 +65,7 @@
   Plug 'NLKNguyen/papercolor-theme'
   Plug 'tyrannicaltoucan/vim-deep-space'
   Plug 'rakr/vim-one'
+  Plug 'ayu-theme/ayu-vim'
 
   " Snippets
   Plug 'SirVer/ultisnips'
@@ -72,8 +75,7 @@
   " Autocomplete
   Plug 'Shougo/deoplete.nvim'
   Plug 'Shougo/context_filetype.vim'
-  Plug 'vimlab/split-term.vim'
-  Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+  " Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
   Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 
   Plug 'vim-scripts/auto_autoread.vim'
@@ -170,9 +172,10 @@ set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg
 
 " Colors
 set termguicolors
-set background=light
+set background=dark
 let g:one_allow_italics = 1
-colorscheme PaperColor
+let ayucolor="mirage"
+colorscheme ayu
 
 " Russian keymap support
 set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯЖ;ABCDEFGHIJKLMNOPQRSTUVWXYZ:,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
@@ -307,7 +310,7 @@ let g:ctrlsf_confirm_save=0
 let g:user_emmet_install_global=0
 let g:user_emmet_expandabbr_key='<C-e>'
 imap <expr> <C-e> emmet#expandAbbrIntelligent("\<C-e>")
-autocmd FileType html,css,tpl EmmetInstall
+autocmd FileType html,css,tpl,stylus EmmetInstall
 
 " Use deoplete.
 let g:deoplete#enable_at_startup=1
@@ -353,7 +356,7 @@ let g:UltiSnipsEditSplit="vertical"
 
 " FZF
 set rtp+=/usr/local/opt/fzf
-nnoremap <C-p> :FZF -m<CR>
+nnoremap <C-p> :Files <CR>
 nnoremap <silent> <C-b> :Buffers<CR>
 nnoremap <silent> <Leader>C :Colors<CR>
 
@@ -368,41 +371,10 @@ let g:fzf_layout = { 'down': '~40%' }
 nnoremap <leader>a :Ag <CR>
 nmap <C-f> :Ag <c-r>=expand("<cword>")<cr><cr>
 
-function! s:ag_to_qf(line)
-  let parts = split(a:line, ':')
-  return {'filename': parts[0], 'lnum': parts[1], 'col': parts[2],
-        \ 'text': join(parts[3:], ':')}
-endfunction
+nnoremap <leader>l :Rg <CR>
 
-function! s:ag_handler(lines)
-  if len(a:lines) < 2 | return | endif
-
-  let cmd = get({'ctrl-x': 'split',
-               \ 'ctrl-v': 'vertical split',
-               \ 'ctrl-t': 'tabe'}, a:lines[0], 'e')
-  let list = map(a:lines[1:], 's:ag_to_qf(v:val)')
-
-  let first = list[0]
-  execute cmd escape(first.filename, ' %#\')
-  execute first.lnum
-  execute 'normal!' first.col.'|zz'
-
-  if len(list) > 1
-    call setqflist(list)
-    copen
-    wincmd p
-  endif
-endfunction
-
-command! -nargs=* Ag call fzf#run({
-\ 'source':  printf('ag -U --nogroup --column --color "%s"',
-\                   escape(empty(<q-args>) ? '^(?=.)' : <q-args>, '"\')),
-\ 'sink*':    function('<sid>ag_handler'),
-\ 'options': '--ansi --expect=ctrl-t,ctrl-v,ctrl-x --delimiter : --nth 4.. '.
-\            '--multi --bind ctrl-a:select-all,ctrl-d:deselect-all '.
-\            '--color hl:68,hl+:110',
-\ 'down':    '50%'
-\ })
+command! -bang -nargs=* Rg
+      \ call fzf#vim#grep('rg -i -s -w '.shellescape(<q-args>), 0, <bang>0)
 
 " Automatically clean trailing whitespaces on save
 fun! <SID>StripTrailingWhitespaces()
