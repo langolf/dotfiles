@@ -1,10 +1,14 @@
-" Plugins {{{
+"z Plugins {{{
   call plug#begin('~/.nvim/plugged')
 
   " Search
   Plug 'rking/ag.vim'
   Plug 'haya14busa/incsearch.vim'
   Plug 'haya14busa/incsearch-fuzzy.vim'
+  Plug 'mhinz/vim-grepper'
+  Plug 'junegunn/vim-slash'
+  Plug 'AndrewRadev/writable_search.vim'
+  Plug 'easymotion/vim-easymotion'
 
   " File browsing
   Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -12,6 +16,7 @@
   Plug 'dyng/ctrlsf.vim'
   Plug 'scrooloose/nerdtree'
   Plug 'francoiscabrol/ranger.vim'
+  Plug 'rbgrouleff/bclose.vim' " for ranger
   Plug 'vimlab/split-term.vim'
   Plug 'Shougo/denite.nvim'
 
@@ -24,17 +29,19 @@
   Plug 'chrisbra/vim-diff-enhanced'
 
   " Code syntax
-  Plug 'http://github.com/hail2u/vim-css3-syntax.git'
-  Plug 'JulesWang/css.vim'
-  Plug 'stephenway/postcss.vim'
-  Plug 'othree/csscomplete.vim'
-  Plug 'wavded/vim-stylus' , {'for': 'stylus'}
   Plug 'othree/html5.vim'
   Plug 'StanAngeloff/php.vim', {'for': 'php'}
   Plug 'kchmck/vim-coffee-script', {'for': 'coffee'}
   Plug 'digitaltoad/vim-pug', {'for': 'pug'}
-  Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
-  Plug 'tpope/vim-rails', {'for': 'ruby'}
+  " Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
+
+  " CSS
+  Plug 'kewah/vim-stylefmt'
+  Plug 'JulesWang/css.vim'
+  Plug 'stephenway/postcss.vim'
+  Plug 'othree/csscomplete.vim'
+  Plug 'http://github.com/hail2u/vim-css3-syntax.git'
+  Plug 'wavded/vim-stylus' , {'for': 'stylus'}
 
   Plug 'neomake/neomake'
 
@@ -65,10 +72,9 @@
   Plug 'NLKNguyen/papercolor-theme'
   Plug 'tyrannicaltoucan/vim-deep-space'
   Plug 'rakr/vim-one'
-  Plug 'ayu-theme/ayu-vim'
 
   " Snippets
-  Plug 'SirVer/ultisnips'
+  " Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
   Plug 'ervandew/supertab'
 
@@ -106,7 +112,8 @@ set ttimeoutlen=0
 
 set splitright
 set splitbelow
-set cursorline
+set cursorline!
+syntax sync minlines=256
 set history=1000
 set autoread
 set autowriteall
@@ -174,8 +181,7 @@ set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg
 set termguicolors
 set background=dark
 let g:one_allow_italics = 1
-let ayucolor="mirage"
-colorscheme ayu
+colorscheme one
 
 " Russian keymap support
 set langmap=ФИСВУАПРШОЛДЬТЩЗЙКЫЕГМЦЧНЯЖ;ABCDEFGHIJKLMNOPQRSTUVWXYZ:,фисвуапршолдьтщзйкыегмцчня;abcdefghijklmnopqrstuvwxyz
@@ -256,8 +262,8 @@ map  gc  <Plug>Commentary
 nmap gcc <Plug>CommentaryLine
 
 " Incsearch fuzzy
-map /  <Plug>(incsearch-forward)
-map ? <Plug>(incsearch-fuzzy-/)
+" map /  <Plug>(incsearch-forward)
+" map ? <Plug>(incsearch-fuzzy-/)
 
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
@@ -266,6 +272,12 @@ nmap ga <Plug>(EasyAlign)
 " Open vertical term
 nnoremap <leader>\ :VTerm<CR>
 nnoremap § :Term<CR>
+
+let g:EasyMotion_do_mapping = 0
+nmap <leader><leader> <Plug>(easymotion-overwin-f)
+
+" Grep
+nnoremap <leader>l :GrepperRg -w
 
 if has('nvim')
   tmap § :<Esc>:q<CR>
@@ -310,7 +322,7 @@ let g:ctrlsf_confirm_save=0
 let g:user_emmet_install_global=0
 let g:user_emmet_expandabbr_key='<C-e>'
 imap <expr> <C-e> emmet#expandAbbrIntelligent("\<C-e>")
-autocmd FileType html,css,tpl,stylus EmmetInstall
+autocmd FileType html,js,css,tpl,stylus EmmetInstall
 
 " Use deoplete.
 let g:deoplete#enable_at_startup=1
@@ -350,6 +362,12 @@ let g:NERDTreeDirArrowCollapsible = '-'
 " Neomake
 let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_json_enabled_makers = ['jsonlint']
+let g:neomake_css_enabled_makers = ['stylelint']
+let g:neomake_css_stylelint_maker = {
+\ 'exe': 'stylelint',
+\ 'args': ['--syntax', 'css'],
+\ 'errorformat': '\ %l:%c\ %*[\✖]\ %m'
+\ }
 
 " Ultisnips
 let g:UltiSnipsEditSplit="vertical"
@@ -370,8 +388,6 @@ let g:fzf_layout = { 'down': '~40%' }
 " Ag
 nnoremap <leader>a :Ag <CR>
 nmap <C-f> :Ag <c-r>=expand("<cword>")<cr><cr>
-
-nnoremap <leader>l :Rg <CR>
 
 command! -bang -nargs=* Rg
       \ call fzf#vim#grep('rg -i -s -w '.shellescape(<q-args>), 0, <bang>0)
