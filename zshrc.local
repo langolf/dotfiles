@@ -1,0 +1,145 @@
+
+# NNN
+export NNN_USE_EDITOR="1"
+export NNN_TMPFILE="tmp/nnn"
+export NNN_DISABLE_FILE_OPEN_ON_NAV=1
+export NNN_RESTRICT_NAV_OPEN=1
+export NNN_CONTEXT_COLORS='1234'
+export NNN_SCRIPT_DIR="$HOME/.config/nnn"
+
+n() {
+  nnn -H "$@"
+
+  if [ -f $NNN_TMPFILE ]; then
+    . $NNN_TMPFILE
+    rm $NNN_TMPFILE
+  fi
+}
+
+
+# Bat
+export BAT_CONFIG_PATH=$HOME/.config/bat/config.conf
+export PKG_CONFIG_PATH="${PKG_CONFIG_PATH}:/usr/local/opt/libffi/lib/pkgconfig"
+
+
+# fbr - checkout git branch (including remote branches)
+fbr() {
+  local branches branch
+  branches=$(git branch --all | grep -v HEAD) &&
+    branch=$(echo "$branches" |
+      fzf-tmux -d $((2 + $(wc -l <<<"$branches"))) +m) &&
+    git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+}
+
+# Badoo sync
+syncd3() {
+  unrealsync --exclude .git --exclude .idea --exclude node_modules --exclude **/node_modules/** --exclude _deploy/node_modules --exclude _deploy/desktopweb/node_modules --exclude _deploy/desktopweb/styleguide/node_modules --exclude _deploy/desktopweb/styleguide-builder --exclude images/-/booking/node_modules --exclude images/-/commshub/node_modules --exclude images/-/-/email-builder/node_modules /Users/langolf/Work/badoo www1.d3:badoo
+}
+
+gitRemoveOld() {
+  git fetch -p && for branch in $(git branch -vv | grep ': gone]' | awk '{print $1}'); do git branch -D $branch; done
+}
+
+# fzf
+export FZF_COMPLETION_TRIGGER=''
+bindkey '^T' fzf-completion
+bindkey '^I' $fzf_default_completion
+export FZF_DEFAULT_COMMAND='rg --files'
+export FZF_CTRL_T_COMMAND="fd --type f"
+export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
+
+# Skim
+export SKIM_DEFAULT_OPTIONS="--layout=reverse --prompt='༼ つ ▀̿_▀̿ ༽つ ' --cmd-prompt='(つ◉益◉)つ '"
+export SKIM_DEFAULT_COMMAND="rg --files"
+export LDFLAGS="-L/usr/local/opt/ruby/lib"
+export CPPFLAGS="-I/usr/local/opt/ruby/include"
+alias skvi='f(){ x="$(sk --bind "ctrl-p:toggle-preview" --ansi --preview="preview.sh -v {}" --preview-window=up:50%:hidden)"; [[ $? -eq 0 ]] && nvim "$x" || true }; f'
+alias rgvi='
+  f(){
+    x="$(sk --bind "ctrl-p:toggle-preview,ctrl-f:toggle" --ansi -i -c "rg --color=always --line-number \"{}\"" --preview="preview.sh -v {}" --preview-window=up:50%:hidden)"; 
+    [[ $? -eq 0 ]] && nvim "$(echo $x|cut -d: -f1)" "+$(echo $x|cut -d: -f2)" || true };
+  f'
+
+
+
+lfcd () {
+    tmp="$(mktemp)"
+    lf -last-dir-path="$tmp" "$@"
+    if [ -f "$tmp" ]; then
+        dir="$(cat "$tmp")"
+        rm -f "$tmp"
+        if [ -d "$dir" ]; then
+            if [ "$dir" != "$(pwd)" ]; then
+                cd "$dir"
+            fi
+        fi
+    fi
+}
+
+bindkey -s '^o' 'lfcd\n'  # zsh
+bindkey -s '^f' 'rgvi\n'
+
+alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging=9222"
+
+# c - browse chrome history
+c() {
+  local cols sep
+  cols=$(( COLUMNS / 3 ))
+  sep='{::}'
+
+  cp -f ~/Library/Application\ Support/Google/Chrome/Default/History /tmp/h
+
+  sqlite3 -separator $sep /tmp/h \
+    "select substr(title, 1, $cols), url
+     from urls order by last_visit_time desc" |
+  awk -F $sep '{printf "%-'$cols's  \x1b[36m%s\x1b[m\n", $1, $2}' |
+  fzf --ansi --multi | sed 's#.*\(https*://\)#\1#' | xargs open
+}
+
+export TIG_LS_REMOTE="git ls-remote . master feature/*" tig
+
+# Use fd and fzf to get the args to a command.
+# Works only with zsh
+# Examples:
+# f mv # To move files. You can write the destination after selecting the files.
+# f 'echo Selected:'
+# f 'echo Selected music:' --extention mp3
+# fm rm # To rm files in current directory
+f() {
+    sels=( "${(@f)$(fd "${fd_default[@]}" "${@:2}"|fz)}" )
+    test -n "$sels" && print -z -- "$1 ${sels[@]:q:q}"
+}
+
+# Like f, but not recursive.
+fm() f "$@" --max-depth 1
+
+# Deps
+alias fz="fzf-noempty --bind 'tab:toggle,shift-tab:toggle+beginning-of-line+kill-line,ctrl-j:toggle+beginning-of-line+kill-line,ctrl-t:top' --color=light -1 -m"
+fzf-noempty () {
+	local in="$(</dev/stdin)"
+	test -z "$in" && (
+		exit 130
+	) || {
+		ec "$in" | fzf "$@"
+	}
+}
+ec () {
+	if [[ -n $ZSH_VERSION ]]
+	then
+		print -r -- "$@"
+	else
+		echo -E -- "$@"
+	fi
+}
+
+j() {
+    if [[ "$#" -ne 0 ]]; then
+        cd $(autojump $@)
+        return
+    fi
+    cd "$(autojump -s | sort -k1gr | awk '$1 ~ /[0-9]:/ && $2 ~ /^\// { for (i=2; i<=NF; i++) { print $(i) } }' |  fzf --height 40% --reverse --inline-info)" 
+}
+
+export LDFLAGS="-L/usr/local/opt/readline/lib:$LDFLAGS"
+export CPPFLAGS="-I/usr/local/opt/readline/include:$CPPFLAGS"
+

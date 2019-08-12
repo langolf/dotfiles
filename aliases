@@ -1,0 +1,22 @@
+alias ll='ls -lh'
+alias la='ls -lAh'
+alias l='ls -lah'
+alias md='mkdir -p'
+alias rd='rmdir'
+
+alias v=nvim
+alias vi=nvim
+alias e=$EDITOR
+alias r=ranger
+alias psg='ps axu | grep'
+alias cd..="cd .."
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
+alias .......="cd ../../../../../.."
+alias ........="cd ../../../../../../.."
+alias .........="cd ../../../../../../../.."
+alias ..........="cd ../../../../../../../../.."
+
