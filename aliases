@@ -4,6 +4,9 @@ alias l='ls -lah'
 alias md='mkdir -p'
 alias rd='rmdir'
 
+alias up='source ~/.zshrc;exec zsh -l'
+alias vz='nvim ~/.zshrc'
+
 alias v=nvim
 alias vi=nvim
 alias e=$EDITOR

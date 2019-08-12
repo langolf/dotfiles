@@ -41,11 +41,11 @@ gitRemoveOld() {
 }
 
 # fzf
-export FZF_COMPLETION_TRIGGER=''
-bindkey '^T' fzf-completion
-bindkey '^I' $fzf_default_completion
+export FZF_DEFAULT_OPTS='+s --no-hscroll --layout=reverse --prompt="(⊃･ᴥ･)つ " --inline-info'
 export FZF_DEFAULT_COMMAND='rg --files'
+export FZF_CTRL_T_OPTS="--preview '(highlight -O ansi -l {} 2> /dev/null || cat {} || tree -C {}) 2> /dev/null | head -200'"
 export FZF_CTRL_T_COMMAND="fd --type f"
+export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window right:50%:wrap"
 export FZF_ALT_C_OPTS="--preview 'tree -C {} | head -200'"
 
 # Skim
